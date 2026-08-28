@@ -1,0 +1,199 @@
+# ~/.zshrc
+
+# ============================================================
+# Zsh behavior
+# ============================================================
+
+# Emacs-style command-line editing: (gives me Alt+Backspace to del backwards, for example)
+bindkey -e
+
+# Reduce the delay after pressing Esc before Zsh enters
+# vi command mode. Default can feel noticeably sluggish.
+export KEYTIMEOUT=1
+
+# Allow comments at an interactive prompt.
+setopt INTERACTIVE_COMMENTS
+
+# ============================================================
+# History
+# ============================================================
+
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=100000
+SAVEHIST=100000
+
+# Save timestamps/durations.
+setopt EXTENDED_HISTORY
+
+# Append rather than overwrite history.
+setopt APPEND_HISTORY
+
+# Share history between simultaneous zsh sessions.
+setopt SHARE_HISTORY
+
+# Clean up duplicate/noisy entries.
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_REDUCE_BLANKS
+
+
+# ============================================================
+# Zsh completion
+# ============================================================
+
+autoload -Uz compinit
+compinit
+
+# Interactive completion menu.
+zstyle ':completion:*' menu select
+
+# Case-insensitive completion.
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+
+# Use terminal colors in completion listings.
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
+
+# ============================================================
+# zsh-autosuggestions
+# ============================================================
+
+# First try history; if there is no match, try zsh completion.
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+
+# Muted color for suggestions.
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
+
+source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+
+# ============================================================
+# fzf
+# ============================================================
+
+# A compact, attractive fuzzy-finder UI.
+export FZF_DEFAULT_OPTS="
+  --height=40%
+  --layout=reverse
+  --border
+  --style=full
+"
+
+# Don't let fzf claim Ctrl+R; Atuin will own that.
+# Keep fzf's Ctrl+T and Alt+C bindings.
+FZF_CTRL_R_COMMAND= source <(fzf --zsh)
+
+
+# ============================================================
+# Atuin
+# ============================================================
+
+# Ctrl+R -> Atuin history search.
+#
+# Leave Up-arrow as ordinary shell history navigation.
+# Disable Atuin's '?' AI binding since we're not using it.
+# eval "$(atuin init zsh --disable-up-arrow --disable-ai)"
+eval "$(atuin init zsh --disable-up-arrow)"
+
+# ============================================================
+# Default Terminal Prompt PS1
+# ============================================================
+
+autoload -Uz vcs_info
+setopt prompt_subst
+
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:git:*' formats '%b'
+
+precmd() {
+    local last_status=$?
+
+    vcs_info
+
+    local git_status=""
+
+    if git rev-parse --is-inside-work-tree &>/dev/null; then
+        if ! git diff --cached --quiet 2>/dev/null; then
+            git_status+=" +"
+        fi
+
+        if ! git diff --quiet 2>/dev/null; then
+            git_status+=" *"
+        fi
+
+        if [[ -n "$(git ls-files --others --exclude-standard 2>/dev/null)" ]]; then
+            git_status+=" ?"
+        fi
+
+        local stash_count
+        stash_count=$(git stash list 2>/dev/null | wc -l)
+
+        if (( stash_count > 0 )); then
+            git_status+=" stash:${stash_count}"
+        fi
+    fi
+
+    local status_color
+    if (( last_status == 0 )); then
+        status_color='%F{green}'
+    else
+        status_color='%F{red}'
+    fi
+
+    PROMPT='%F{magenta}%n%f@%F{blue}%m%f'
+    PROMPT+=' %F{240}::%f '
+    PROMPT+='%F{yellow}%~%f'
+
+    if [[ -n "$vcs_info_msg_0_" ]]; then
+        PROMPT+=' %F{240}::%f '
+        PROMPT+="%F{214}${vcs_info_msg_0_}%f"
+        PROMPT+="%F{208}${git_status}%f"
+    fi
+
+    PROMPT+=' %F{240}::%f '
+    PROMPT+="${status_color}${last_status}%f"
+    PROMPT+=$'\n%F{magenta}❯%f '
+}
+
+# ============================================================
+# zsh syntax highlighting
+# ============================================================
+
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# ============================================================
+# zsh key-binding remaps
+# ============================================================
+bindkey '^h' autosuggest-accept
+
+# ============================================================
+# Environment variables
+# ============================================================
+export PATH="$HOME/.local/bin:$HOME/bin:$HOME/.opencode/bin:$PATH"
+
+source ~/.aai
+source ~/.gai
+source ~/.oai
+
+# ============================================================
+# Default Editors
+# ============================================================
+export VISUAL=nvim
+export EDITOR=nvim
+
+# ============================================================
+# Key Bindings
+# ============================================================
+function fzf-file-widget() {
+    local file escaped
+
+    file=$(rg --files | fzf) || return
+    escaped=${(q)file}
+
+    LBUFFER+="$escaped"
+    zle redisplay
+}
+
+zle -N fzf-file-widget
+bindkey '^o' fzf-file-widget
