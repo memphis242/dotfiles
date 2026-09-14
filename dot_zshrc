@@ -171,6 +171,7 @@ bindkey '^h' autosuggest-accept
 # Environment variables
 # ============================================================
 export PATH="$HOME/.local/bin:$HOME/bin:$HOME/.opencode/bin:$PATH"
+export PS_FORMAT=user,pid,state,pcpu,pmem,start,etime,cputime,args
 
 source ~/.aai
 source ~/.gai
