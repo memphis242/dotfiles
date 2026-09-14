@@ -42,6 +42,45 @@
   add one, check that its default position doesn't overlap or cover other UI;
   when it would, adjust its placement (or reserve space for it).
 
+- A control that acts on a scrollable container (a pane's collapse arrow, a
+  section's toolbar) must stay visible while that container scrolls. Pin it to
+  the scrolling element it belongs to, not merely to the page - a control that
+  is sticky at page level still scrolls away inside its own pane's overflow.
+
+- Use color to show state, and cover the intermediate states too, not just the
+  binary ones: complete, partially complete, not started, and error each get
+  their own color. Keep one palette for one meaning across the whole app - the
+  same state in a side pane, a table column, and a badge should look the same -
+  and reserve the error color for genuine errors, so a not-yet-started item
+  reads as neutral rather than as something gone wrong.
+
+- Size table columns for the content they actually carry rather than leaving it
+  to the browser's automatic layout; give text-heavy columns (timestamps,
+  descriptions, composite status) enough width that their content stops
+  wrapping several lines deep.
+
+- Make data tables sortable by clicking a column heading, toggling ascending
+  and descending. Sorts stack hierarchically: clicking a second column refines
+  the first as a tie-breaker rather than replacing it, each participating
+  heading shows its rank and direction, and an explicit reset control clears
+  every key and restores the original order.
+
+- Let the user resize what holds their content: side panes drag from their
+  edge, table columns drag from their heading divider. Give each a visible
+  grab strip with a col-resize cursor, clamp it to a sensible min and max,
+  remember the chosen size, and offer a way back to the default (double-
+  clicking the grab strip is a good one). A drag strip belongs between the
+  things it separates, not overlaid on either of them, and a resized table
+  column should grow the table - letting the table scroll sideways in its own
+  container - rather than squeezing its neighbors.
+
+    - Ensure that the resized element persists if it is brought back after being
+      hidden away, or the user has navigated to another page and returns back.
+      This takes away tedious repetitive resizing effort from the user.
+
+- A control that is only operable by dragging needs a keyboard path to the
+  same outcome (arrow keys on a focusable handle, or an equivalent control).
+
 # Coding Guidelines
 
 - When writing code involving data or variables, ALWAYS prioritize const-correctness
@@ -116,12 +155,15 @@
   support `-j` or `--parallel` to parallelize as many threads as the platform supports.
 
 - Unless intentionally done **carefully** for performance reasons, favor default-initializing
-  all objects to a reasonable value rather than leaving for change partial initialization
+  all objects to a reasonable value rather than leaving for chance partial initialization
   or a completely uninitialized object carrying garbage.
 
 - In C++, don't omit the `struct` qualifier when declaring a variable of its type,
   even if it's not necessary. This is more informative to the reader, and forces
   the writer to recall the subtle difference between `struct`s and `class`s.
+
+- Instead of long if-if or if-else chains against a particular value, favor switch-case
+  statements or map constructs.
 
 # Testing Guidelines
 
@@ -332,3 +374,8 @@ user's browser/terminal - verify (e.g. `curl` the port yourself) and always
 give a `!<command>` fallback they can run themselves. Launching it is not
 the same as the user confirming it works - that confirmation is still
 required before closing out the change.
+
+## General Guidelines Re-emphasized
+
+- When writing commits, NEVER auto-add your agent name as a co-author, nor specify
+  a remote session name like "Claude-Session".
