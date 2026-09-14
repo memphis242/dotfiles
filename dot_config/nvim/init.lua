@@ -243,19 +243,19 @@ require("lazy").setup({
                     opts("Open in new tab")
                 )
 
-                vim.keymap.set(
-                    "n",
-                    "s",
-                    api.node.open.vertical,
-                    opts("Open in vertical split")
-                )
+                -- vim.keymap.set(
+                --     "n",
+                --     "s",
+                --     api.node.open.vertical,
+                --     opts("Open in vertical split")
+                -- )
 
-                vim.keymap.set(
-                    "n",
-                    "i",
-                    api.node.open.horizontal,
-                    opts("Open in horizontal split")
-                )
+                -- vim.keymap.set(
+                --     "n",
+                --     "i",
+                --     api.node.open.horizontal,
+                --     opts("Open in horizontal split")
+                -- )
 
                 vim.keymap.set(
                     "n",
