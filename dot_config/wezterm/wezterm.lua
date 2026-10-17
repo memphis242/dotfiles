@@ -196,6 +196,13 @@ config.keys = {
     action = act.CloseCurrentPane { confirm = true },
   },
 
+  -- Toggle maximize of current active pane
+  {
+    key = 'z',
+    mods = 'LEADER',
+    action = act.TogglePaneZoomState
+  },
+
   -- Activates the pane to the left
   {
      key = 'h',
