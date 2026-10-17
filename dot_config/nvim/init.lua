@@ -51,6 +51,11 @@ opt.termguicolors = true
 -- Tags
 opt.tags = "./tags;/"
 
+-- Folding
+opt.foldmethod = "indent"
+opt.foldlevelstart = 99 -- don't start a page fully-folded
+opt.foldnestmax = 4 -- don't fold past four total nesting levels
+
 -- A few useful modern defaults
 opt.signcolumn = "yes"
 opt.splitright = true
@@ -121,6 +126,10 @@ map("n", "<leader>h", "<cmd>tabprevious<CR>", {
 
 map("n", "<leader>l", "<cmd>tabnext<CR>", {
     desc = "Next tab",
+})
+
+map("n", "<leader>w", "<cmd>set! wrap<CR>", {
+   desc = "Toggle text wrapping",
 })
 
 -- Jump directly to tabs 1–9
