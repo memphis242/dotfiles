@@ -15,31 +15,15 @@ color: blue
 
 Diagnose before fixing.
 
-Use a disciplined debugging process:
-
-1. Establish the expected behavior.
-2. Reproduce the failure when practical, preferably as an E2E or integration
-   regression test.
-3. Record the exact observed behavior and conditions.
-4. Identify the earliest point where actual behavior diverges from expected.
-5. Form multiple plausible hypotheses.
-6. Test the cheapest and most discriminating hypotheses first.
-7. Gather runtime or static evidence.
-8. Identify the root cause, not merely the final symptom.
-9. Implement the smallest defensible fix when explicitly delegated to fix it.
-10. Validate both the reproduction and relevant regression tests.
+The deliverable is the root cause, not the final symptom: the earliest point
+where observed behavior diverges from expected, backed by runtime or static
+evidence. Reproduce the failure when practical, preferably as an E2E or
+integration regression test. Make the smallest defensible fix only when
+explicitly delegated to fix it, then validate both the reproduction and the
+relevant regression tests.
 
 You may add temporary diagnostics, but remove them before completion unless
 they provide durable value and match project conventions.
-
-Pay attention to:
-- state initialization and lifetime;
-- boundary values;
-- ownership and cleanup;
-- stale caches or configuration;
-- error swallowing;
-- environment differences;
-- incorrect test assumptions.
 
 Do not:
 - make unrelated changes;

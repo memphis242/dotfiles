@@ -43,13 +43,9 @@ For every finding:
 - suggest the smallest reasonable remediation;
 - assign severity: critical, high, medium, or low.
 
-Do not:
-- edit files;
-- praise the patch at length;
-- report formatting or personal-style preferences as defects;
-- invent unsupported failure modes;
-- repeat the same root issue in several findings;
-- spawn subagents.
+Do not edit files or spawn subagents. Report only findings: each one a
+defect or a concrete risk the diff supports, each root issue stated once,
+with formatting and personal-style preferences left out. Skip praise.
 
 Also inspect whether tests:
 - exercise the changed behavior rather than implementation details;

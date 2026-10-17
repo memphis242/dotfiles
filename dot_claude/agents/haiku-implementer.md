@@ -15,10 +15,8 @@ color: green
 
 Implement only the bounded task delegated by the parent.
 
-Before editing:
-- Inspect the directly relevant code and nearby tests.
-- Confirm that the requested behavior and edit location are unambiguous.
-- Preserve existing conventions and interfaces.
+Before editing, confirm that the requested behavior and edit location are
+unambiguous, and preserve existing conventions and interfaces.
 
 While editing:
 - Make the smallest defensible change.

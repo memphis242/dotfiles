@@ -6,80 +6,11 @@
   a remote session name like "Claude-Session".
 
 - When making technical decisions, do not give much weight to human-based development
-  costs. We are now an agentic development system with both humans and AI agents.
+  costs: development here is done by an agentic system of humans and AI agents.
   Prioritize quality, simplicity, robustness, scalability, and long-term maintainability.
 
-# GUI Principles
-
-- Always use modal dialogs for adding or editing content, not expanding inline
-  forms that shift page content or auto-scroll the page.
-
-- Preserve navigation context and make returning to the previous view easy;
-  avoid unnecessary navigation away from the user's current content.
-
-- Order pages and controls consistently with their logical workflow or sequence.
-
-- Use tabs, panes, modals, inline expansions, tooltips, and other standard UI
-  elements judiciously to organize content and reduce clutter.
-
-- Consider segmented progress bars with discrete stage labels and a continuous,
-  draggable tracker for workflows or progress states where appropriate.
-
-- Make panes collapsible with an obvious way to reopen them, so users can
-  prioritize their working space.
-
-- Use directional arrows at a pane's top-right edge for collapse/expand controls;
-  keep the reopening control visible when the pane is collapsed (a floating
-  button is a fine way to do this - see the overlap-check principle below for
-  what that needs). Prefer this to the classic stacked horizontal bar triplet.
-
-- Keep long sections in bounded, independently scrollable containers so page
-  headings and controls remain visible.
-
-- Floating UI elements (fixed/absolute/sticky positioning, an overlay, a
-  floating button or badge, anything not simply laid out in normal document
-  flow) are a fine, often-preferable choice for certain use cases. Whenever you
-  add one, check that its default position doesn't overlap or cover other UI;
-  when it would, adjust its placement (or reserve space for it).
-
-- A control that acts on a scrollable container (a pane's collapse arrow, a
-  section's toolbar) must stay visible while that container scrolls. Pin it to
-  the scrolling element it belongs to, not merely to the page - a control that
-  is sticky at page level still scrolls away inside its own pane's overflow.
-
-- Use color to show state, and cover the intermediate states too, not just the
-  binary ones: complete, partially complete, not started, and error each get
-  their own color. Keep one palette for one meaning across the whole app - the
-  same state in a side pane, a table column, and a badge should look the same -
-  and reserve the error color for genuine errors, so a not-yet-started item
-  reads as neutral rather than as something gone wrong.
-
-- Size table columns for the content they actually carry rather than leaving it
-  to the browser's automatic layout; give text-heavy columns (timestamps,
-  descriptions, composite status) enough width that their content stops
-  wrapping several lines deep.
-
-- Make data tables sortable by clicking a column heading, toggling ascending
-  and descending. Sorts stack hierarchically: clicking a second column refines
-  the first as a tie-breaker rather than replacing it, each participating
-  heading shows its rank and direction, and an explicit reset control clears
-  every key and restores the original order.
-
-- Let the user resize what holds their content: side panes drag from their
-  edge, table columns drag from their heading divider. Give each a visible
-  grab strip with a col-resize cursor, clamp it to a sensible min and max,
-  remember the chosen size, and offer a way back to the default (double-
-  clicking the grab strip is a good one). A drag strip belongs between the
-  things it separates, not overlaid on either of them, and a resized table
-  column should grow the table - letting the table scroll sideways in its own
-  container - rather than squeezing its neighbors.
-
-    - Ensure that the resized element persists if it is brought back after being
-      hidden away, or the user has navigated to another page and returns back.
-      This takes away tedious repetitive resizing effort from the user.
-
-- A control that is only operable by dragging needs a keyboard path to the
-  same outcome (arrow keys on a focusable handle, or an equivalent control).
+- GUI work of any kind, from a new page to a styling tweak, follows the
+  `gui-principles` skill; load it before starting.
 
 # Coding Guidelines
 
@@ -167,9 +98,9 @@
 
 # Testing Guidelines
 
-- When working bugs, ALWAYS try to reproduce the bug in an E2E regression test
-  whenever possible. This helps inform us of the necessary context of the bug,
-  and facilitates before/after confirmation of bug fixes.
+- When working a bug, first reproduce it in an E2E regression test; where that
+  is not feasible, say so and why. The test captures the bug's context and
+  gives before/after confirmation of the fix.
 
 - When writing unit tests, especially early on in a project (e.g., MVP phase,
   exploratory or experimental sessions, etc.), do not overdo it. These early stages
@@ -249,10 +180,8 @@
 - Direct root thread file edits should be rare, reserved for small changesets and
   quick one-offs.
 
-- Eagerly parallelize work whenever possible to maximize efficiency of execution.
-  This development machine has 16 cores, 32 hardware threads, 60+ GB of RAM, and
-  ≈ 2TB of persistent working storage alongside ≈ 1TB of primary storage, so let's
-  get our money's worth out of this beast!
+- Eagerly parallelize work whenever possible to maximize efficiency of execution;
+  the machine described above has the cores, memory, and storage for it.
 
 - Use git worktrees for parallel work (see the next section for the full
   rules, which apply to concurrent sessions as well as to subagents).

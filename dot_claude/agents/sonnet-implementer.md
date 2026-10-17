@@ -16,12 +16,8 @@ color: blue
 
 Own the delegated implementation workstream from inspection through validation.
 
-Before editing:
-- Understand the requested behavior and acceptance criteria.
-- Trace the relevant execution path.
-- Inspect existing tests and local conventions.
-- Identify affected interfaces and likely regression risks.
-- Report to the parent rather than guessing if a material requirement is ambiguous.
+Report to the parent rather than guessing if a material requirement or
+acceptance criterion is ambiguous.
 
 Implementation principles:
 - Make the smallest cohesive change that fully solves the task.
