@@ -162,23 +162,18 @@
   architect, integrator, decision-maker, and final reviewer, who makes good use
   of subagents to execute tasks in parallel whenever possible.
 
-- The root agent must:
-    - understand the user's complete request
-    - decide on which work should remain on the root thread and which work can be
-      delegated to subagent threads
-    - delegate **bounded** work to the most appropriate subagent
-    - reconcile conflicting subagent work/findings
-    - review important implementation decisions
-    - produce the final user-facing response
-    - handle subagent escalation when a subagent recommends it, and re-delegating
-      to the recommended stronger agent rather than absorbing that work silently
+- Delegate by default:
+    - Most simple-to-medium tasks (scripting, writing tests, one-off changes,
+      small-to-medium feature work in an application) should go to
+      the cheapest model, such as Haiku or Luna (as applicable).
+    - Move up a tier (e.g., Sonnet, Terra) only when the task is genuinely hard
+      or ambiguous (difficult debugging, security-sensitive or concurrent code,
+      architecture)
+    - Bring in the biggest and best model (e.g., Fable, Astra) for the most difficult
+      debugging problems or deepest code audits
 
-- Use the least expensive agent that can complete the task reliably, unless the
-  user is asking to maximize quality, in which case choose the agent that will
-  deliver the best quality.
-
-- Direct root thread file edits should be rare, reserved for small changesets and
-  quick one-offs.
+- Root thread file edits is still appropriate for small changesets, quick one-offs,
+  and work that needs the root's context.
 
 - Eagerly parallelize work whenever possible to maximize efficiency of execution;
   the machine described above has the cores, memory, and storage for it.
@@ -192,22 +187,8 @@
 
 # Concurrent Sessions on One Codebase: Always Work in a Worktree
 
-I routinely have **several agentic coding sessions open on the same project
-directory at once**. Those sessions share one working tree, one index, and one
-`HEAD`. Nothing in git isolates them, so ordinary git commands become
-destructive to work you cannot see:
-
-- `git checkout -b` / `git switch` moves **every** other session's `HEAD`.
-- `git add` stages whatever another session has edited, and `git commit` ships
-  it under your message.
-- `git stash`, `git reset`, and `git restore` silently discard or hide another
-  session's uncommitted work. `git stash` is especially bad: the other session
-  has no idea its files just reverted.
-- Another session's in-progress edits show up in your `git status` and land in
-  your diff, your review, and your CI run.
-
-**So: the primary checkout is shared ground. A session that is going to modify
-files works in its own worktree instead.**
+The primary checkout is shared ground. A session that is going to modify files
+works in its own worktree instead.
 
 ## The rule
 
@@ -223,21 +204,6 @@ files works in its own worktree instead.**
   cd /workspace/worktree/<project>/<branch>
   ```
 
-  `git worktree add -b` creates the branch and checks it out **only in the new
-  worktree**; the primary checkout's `HEAD` and working tree are untouched.
-  That is precisely why it is safe with other sessions running, and why it is
-  the correct alternative to `git checkout -b`.
-
-- **Never run these in the primary checkout** while other sessions may be
-  live: `checkout -b`, `switch`, `stash`, `reset`, `restore`, `clean`, or a
-  rebase. If a task truly needs one of them there, ask first.
-
-- Git refuses to check out the same branch in two worktrees. That error is a
-  guardrail telling you another session already owns that branch, not an
-  obstacle to work around with `--force`. Pick a different branch name.
-
-- One worktree per branch per task. Do not reuse another session's worktree.
-
 ## Foreign edits are not yours
 
 - If `git status` shows modified or untracked files you did not create, they
@@ -245,28 +211,13 @@ files works in its own worktree instead.**
   "clean up" them.** Stage only the files you touched, by name. Say what you
   saw and leave it alone.
 
-- This is the practical reason for the existing "never `git add -A` / `git add
-  .`" rule: on a shared checkout those commands are a near-guaranteed way to
-  commit someone else's half-finished work.
-
 ## A worktree does not inherit the build environment
 
 This is the trap that fails **silently**, so check it before running anything:
 
-- A new worktree has no `.venv/`, `node_modules/`, `target/`, or build tree.
-  More dangerously, toolchains that record **absolute** paths keep pointing at
-  the *primary* checkout. A Python editable install is the clearest case: the
-  `.pth` file holds an absolute `src` path, so running the primary's
-  `.venv/bin/pytest` with your shell in a worktree imports and tests the
-  **primary checkout's source**, not the code you just edited. Everything
-  passes, and it proves nothing.
-
-- So: **give each worktree its own environment** and verify what you are about
-  to run actually resolves into that worktree. Prefer a project's own bootstrap
-  script (e.g. `scripts/dev_setup.sh`) over copying or symlinking the primary's.
-  The same applies to anything else holding an absolute path: `node_modules`
-  symlinks, `compile_commands.json`, cargo/ccache dirs, `.env` files pointing at
-  build outputs.
+- A new worktree has no `.venv/`, `node_modules/`, `target/`, or build tree. So,
+  give each worktree its own environment and verify what you are about to run
+  actually resolves into that worktree.
 
 ## Shared runtime resources still collide
 
