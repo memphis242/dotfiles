@@ -63,6 +63,13 @@
 - Handle off-nominal, invalid cases intentionally and up-front, rather than waiting
   for a user to find out. Ensure the previous error surfacing policy is abided by.
 
+- A blocked action is a decision, not an obstacle. If a command is rejected or
+  denied for any reason (sandbox, permission rule, exec policy, approval), do
+  **not** retry it in another form or achieve the same effect another way
+  (another tool, interpreter, flag, or path), even if the rejection suggests
+  "a safer approach". Stop that line of work and report the exact command and
+  rejection message.
+
 - Always commit and push completed work to its worktree's own branch,
   unprompted - do not wait to be asked. This covers pushing a branch for
   review only: merging or fast-forwarding it into a trunk branch (e.g.
@@ -144,6 +151,11 @@
   builds), and temporary caches. **Always** be mindful of the space you are taking
   up from our system's precious and limited `/tmpfs` RAM (≤ 30GB)!
 
+- Keep generated files (build output, coverage data, reports, logs) out of the
+  source tree: write them to the out-of-tree build directory, and run tools
+  that write to the current directory (e.g. `gcov`) from there. A source tree
+  or worktree should only ever contain intentional changes.
+
 - If OOM'ing is a problem, avoid using `/tmp` and clear out any work you have in
   `/tmp` to alleviate the OOM'ing problem.
 
@@ -162,15 +174,22 @@
   architect, integrator, decision-maker, and final reviewer, who makes good use
   of subagents to execute tasks in parallel whenever possible.
 
-- Delegate by default:
-    - Most simple-to-medium tasks (scripting, writing tests, one-off changes,
-      small-to-medium feature work in an application) should go to
-      the cheapest model, such as Haiku or Luna (as applicable).
-    - Move up a tier (e.g., Sonnet, Terra) only when the task is genuinely hard
-      or ambiguous (difficult debugging, security-sensitive or concurrent code,
-      architecture)
-    - Bring in the biggest and best model (e.g., Fable, Astra) for the most difficult
-      debugging problems or deepest code audits
+- Delegate eagerly and by default, preferring headless Codex agents (load the
+  `codex-delegate` skill before any Codex delegation), unless a project's own
+  instruction file says otherwise:
+    - Implementation and testing of small-to-medium tasks (scripting, writing
+      and running tests, one-off changes, small-to-medium feature work) go to
+      Codex **Luna 6** (`gpt-6-luna`).
+    - Larger tasks (multi-component features, refactors, harder debugging) go
+      to Codex **Sol 6.1** (`gpt-6.1-sol`).
+    - The Claude subagents in `~/.claude/agents/` are the fallback when Codex
+      is unavailable or fails, or when a task needs Claude-only tools. Opus
+      remains appropriate for the most difficult debugging and deepest audits
+      or high-stakes reviews.
+    - **Never poll** a background subagent (Codex or otherwise) for completion:
+      no `until`/`while` + `pgrep`/`sleep` loops, no repeated `cat`/`tail` of
+      its output. Launch it in the background, then do other independent work
+      or end your turn; the harness notification is the completion signal.
 
 - Root thread file edits is still appropriate for small changesets, quick one-offs,
   and work that needs the root's context.
