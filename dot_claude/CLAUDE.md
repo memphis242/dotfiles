@@ -49,6 +49,8 @@
 
     - C++23 allows for the ergonomic `std::expected` type for API calls, which frees
       implementations from excessive exception handling overhead.
+    - Prefer `std::format` and `std::print` to `printf`-family functions
+    - Make good use of concepts to enforce stronger complex typing implementation
 
 - Make good, heavy use of compile-time assertions (e.g., `static_assert()` in C++
   and C23, `const_assert!` in Rust, `comptime` + `@compileError()` in Zig,
@@ -62,6 +64,35 @@
 
 - Handle off-nominal, invalid cases intentionally and up-front, rather than waiting
   for a user to find out. Ensure the previous error surfacing policy is abided by.
+
+    - It is often the case that error conditions or states are missed because function
+      return values are ignored, so **do not** ignore function return values unless
+      there is a clearly stated, good reason to, and even then, use `(void)` or other
+      explicit way to declare that the return value is being intentionally ignored.
+
+- A project's build and test system should include multiple layers of quality assurance:
+
+    - primary compiler to produce release/development/debug builds (e.g., gcc or
+      clang for C/C++)
+    - secondary (and more) compilers to run additional static analyses and portability
+      perspectives (e.g., gcc, clang, msvc, embedded vendor compiler for C/C++)
+    - multiple static analyzers that each offer different perspectives (e.g., clang-tidy,
+      cppcheck)
+    - high warning levels across all tooling as applicable (i.e., not just
+      `-Wall -Wextra`)
+        - really consider what each compiler and static analyzer provides warning
+          support for, and how each may be relevant or not for a given project;
+          this may evolve over time as features are added and code diversity increases,
+          requiring more static analysis checks
+    - unit, integration, and development builds should come instrumented with as
+      many sanitizers as may prove useful (e.g., ubsan, asan, tsan,
+      bool/enum/integer under/overflow) to catch run-time problems
+    - don't use `-Werror` for debug/development builds; keep that for production/release,
+      otherwise, it'll unnecessarily slow down and introduce noise during feature
+      development and bug fixes
+    - unit test code has far lower quality standards than application source code, so
+      separate out the warnings for each, so that you may disable nuissance warnings
+      for the unit test code but keep them for application code
 
 - A blocked action is a decision, not an obstacle. If a command is rejected or
   denied for any reason (sandbox, permission rule, exec policy, approval), do
