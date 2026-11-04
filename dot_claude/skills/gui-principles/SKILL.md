@@ -10,6 +10,10 @@ description: >-
 
 # GUI Principles
 
+## Model and effort
+
+UI design work requires a larger, design-capable model. Use Opus or Fable at high effort at minimum; prefer xhigh effort when available. Apply this to substantive visual design, interaction design, and GUI refinement.
+
 ## Overall character
 
 - Quiet and spacious by default. The default view shows what the task needs
