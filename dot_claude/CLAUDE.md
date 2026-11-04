@@ -231,21 +231,23 @@
 - Use git worktrees for parallel work (see the next section for the full
   rules, which apply to concurrent sessions as well as to subagents).
 
-- Subagents working in a worktree edit files only; the session that owns that
-  worktree owns all git writes in it (branching, committing, merging) unless a
-  project says otherwise.
-
-# Concurrent Sessions on One Codebase: Always Work in a Worktree
+# Concurrent Sessions on One Codebase: Consider Working in a Worktree
 
 The primary checkout is shared ground. A session that is going to modify files
-works in its own worktree instead.
+should consider operating in its own worktree instead.
 
 ## The rule
 
-- **Before your first edit**, decide where you are working. A read-only session
-  (answering questions, exploring, reviewing) can stay in the primary checkout
-  and needs no worktree. A session that will **write code creates a worktree
-  first** and does the rest of its work there.
+- **Before your first edit**, decide where you are working.
+    - A read-only session (answering questions, exploring, reviewing) can stay in
+      the primary checkout and needs no worktree.
+    - A session that will write code should follow the following rules:
+        - for smaller tools, quick one-off projects, or learning/classwork projects,
+          perform work in the primary checkout, and using just `main` without branching
+          is fine
+        - for long-running, more complex or more significant/critical projects,
+          use independent worktrees
+        - if unsure, ask the user up-front, and then save the policy off as a memory
 
 - Create it from anywhere, then work in it:
 
