@@ -14,8 +14,7 @@
       `luna-*`.
     - Harder debugging and high-stakes review: `terra-*`, then
       `sol-debugger`.
-    - Cheap mechanical work: `haiku-*`.
-    - `sonnet-*` and `opus-*` are the Anthropic counterparts. Use them as the
+    - `haiku-*`, `sonnet-*`, and `opus-*` are the Anthropic counterparts. Use them as the
       fallback when an OpenAI agent fails, or when a second vendor's
       perspective is wanted, for example an independent review.
 - Subagents cannot spawn further subagents.
