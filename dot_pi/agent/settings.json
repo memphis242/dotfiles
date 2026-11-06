@@ -1,0 +1,18 @@
+{
+  "$schema": "https://pi.dev/schemas/settings.schema.json",
+  "defaultProvider": "anthropic",
+  "defaultModel": "claude-sonnet-5-5",
+  "defaultThinkingLevel": "high",
+  "modelThinkingLevels": {
+    "anthropic/claude-fable-5-1": "xhigh",
+    "anthropic/claude-fable-5": "xhigh",
+    "anthropic/claude-opus-5-5": "low",
+    "anthropic/claude-opus-5": "high",
+    "anthropic/claude-sonnet-5-5": "high",
+    "anthropic/claude-haiku-5-5": "medium"
+  },
+  "theme": "dark",
+  "skills": [
+    "~/.claude/skills/gui-principles"
+  ]
+}

@@ -173,6 +173,10 @@ bindkey '^h' autosuggest-accept
 export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$HOME/bin:$HOME/.opencode/bin:$PATH"
 export PS_FORMAT=user,pid,state,pcpu,pmem,start,etime,cputime,args
 
+# PI coding agent: 1 hour provider prompt cache for the primary session.
+# The subagent extension overrides this to "short" (5 minutes) for subagents.
+export PI_CACHE_RETENTION=long
+
 source ~/.aai
 source ~/.gai
 source ~/.oai
