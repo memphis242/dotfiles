@@ -480,18 +480,39 @@ const SUBAGENT_ENV: Readonly<Record<string, string>> = {
 	PI_SUBAGENT: "1",
 };
 
+/**
+ * One line per user-scope agent ("- name (model, thinking): description"), so
+ * the dispatching model sees the exact agent names without searching.
+ */
+function describeRoster(): string {
+	const agents = discoverAgents(process.cwd(), "user").agents;
+	if (agents.length === 0) return "No user-scope agents are defined.";
+	const lines = agents.map((agent) => {
+		const traits = [agent.model ?? "inherits the dispatching model", agent.thinking && `thinking ${agent.thinking}`]
+			.filter(Boolean)
+			.join(", ");
+		return `- ${agent.name} (${traits}): ${agent.description}`;
+	});
+	return ["Available user-scope agents (use the exact name):", ...lines].join("\n");
+}
+
 export default function (pi: ExtensionAPI) {
 	if (process.env.PI_SUBAGENT === "1") return;
+
+	const roster = describeRoster();
 
 	pi.registerTool({
 		name: "subagent",
 		label: "Subagent",
 		description: [
-			"Delegate tasks to specialized subagents with isolated context.",
-			"Modes: single (agent + task), parallel (tasks array), chain (sequential with {previous} placeholder).",
-			`Default agent scope is "user" (from ${path.join(getAgentDir(), "agents")}).`,
-			`To enable project-local agents in ${CONFIG_DIR_NAME}/agents, set agentScope: "both" (or "project").`,
-		].join(" "),
+			[
+				"Delegate tasks to specialized subagents with isolated context.",
+				"Modes: single (agent + task), parallel (tasks array), chain (sequential with {previous} placeholder).",
+				`Default agent scope is "user" (from ${path.join(getAgentDir(), "agents")}).`,
+				`To enable project-local agents in ${CONFIG_DIR_NAME}/agents, set agentScope: "both" (or "project").`,
+			].join(" "),
+			roster,
+		].join("\n\n"),
 		parameters: SubagentParams,
 
 		async execute(_toolCallId, params, signal, onUpdate, ctx) {

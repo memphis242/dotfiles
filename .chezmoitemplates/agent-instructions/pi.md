@@ -5,7 +5,9 @@
 - Delegate eagerly and by default with the `subagent` tool, unless a project's
   own instruction file says otherwise. Each subagent is a separate PI process
   with its own model and thinking level, so one session can use models from
-  several vendors side by side. Agents are defined in `~/.pi/agent/agents/`.
+  several vendors side by side. The `subagent` tool description lists every
+  available agent by exact name; use those names rather than searching
+  `~/.pi/agent/agents/`.
 - A `subagent` call blocks until the subagent finishes, so there is nothing to
   poll. Run independent tasks together with parallel mode (`tasks: [...]`, up
   to 8 tasks and 4 concurrent) instead of issuing sequential calls.
@@ -14,9 +16,9 @@
       `luna-*`.
     - Harder debugging and high-stakes review: `terra-*`, then
       `sol-debugger`.
-    - `haiku-*`, `sonnet-*`, and `opus-*` are the Anthropic counterparts. Use them as the
-      fallback when an OpenAI agent fails, or when a second vendor's
-      perspective is wanted, for example an independent review.
+    - `haiku-*`, `sonnet-*`, and `opus-*` are the Anthropic counterparts. Use
+      them as the fallback when an OpenAI agent fails, or when a second
+      vendor's perspective is wanted, for example an independent review.
 - Subagents cannot spawn further subagents.
 
 ## Tools and permissions
