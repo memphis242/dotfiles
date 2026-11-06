@@ -3,8 +3,8 @@ name: luna-implementer
 description: General-purpose implementation agent for bounded but nontrivial changes that
   require reasoning across multiple files or components. Use for moderate feature work, multi-file
   fixes, integration changes, state and error-handling changes, contained refactors, and implementations
-  requiring engineering judgment. Do not use for trivial one-file edits better served by mini-implementer,
-  nor for major architecture decisions, which belong to the root agent.
+  requiring engineering judgment. Do not use for major architecture decisions, which belong
+  to the root agent.
 model: openai/gpt-6-luna
 thinking: medium
 ---

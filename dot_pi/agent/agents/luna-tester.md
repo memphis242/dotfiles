@@ -3,8 +3,8 @@ name: luna-tester
 description: Test design and verification agent for meaningful coverage work. Use for writing
   new unit, integration, or E2E tests, reproducing reported bugs as regression tests, analyzing
   coverage gaps in a change, and verifying nontrivial behavior end-to-end. Do not use for
-  merely running known commands (use mini-tester) or for root-cause diagnosis of mysterious
-  failures (use a debugger agent).
+  merely running known commands or for root-cause diagnosis of mysterious failures (use a
+  debugger agent).
 model: openai/gpt-6-luna
 thinking: medium
 ---

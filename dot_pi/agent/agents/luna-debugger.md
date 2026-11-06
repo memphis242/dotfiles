@@ -3,8 +3,8 @@ name: luna-debugger
 description: Root-cause debugging agent for reproducible failures of moderate complexity.
   Use when diagnosing a failure requires forming hypotheses, tracing control flow, reading
   logs, or examining a handful of interacting files. Do not use for a known simple fix or
-  merely running an established test command (use mini-tester); escalate to terra-debugger
-  for intermittent, concurrent, cross-system, or deeply non-obvious failures.
+  merely running an established test command; escalate to terra-debugger for intermittent,
+  concurrent, cross-system, or deeply non-obvious failures.
 model: openai/gpt-6-luna
 thinking: high
 ---

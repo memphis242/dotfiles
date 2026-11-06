@@ -7,7 +7,6 @@
   agent whose description fits the task:
     - Small-to-medium implementation, testing, exploration, and review:
       `luna-*`.
-    - Cheap mechanical work: `mini-*`.
     - Harder debugging and high-stakes review: `terra-*`, then
       `sol-debugger`.
 - Subagents do not spawn further subagents.

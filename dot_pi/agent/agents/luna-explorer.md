@@ -3,9 +3,8 @@ name: luna-explorer
 description: General-purpose explorer for cross-component behavior, architectural questions,
   and non-trivial control-flow or data-flow tracing. Use when answering requires reasoning
   across several files or subsystems, reconciling conflicting abstractions, or understanding
-  runtime state, concurrency, persistence, protocols, or compatibility. Do not use for trivial
-  symbol lookups better served by mini-explorer, and do not use for implementation or debugging
-  work.
+  runtime state, concurrency, persistence, protocols, or compatibility. Do not use for implementation
+  or debugging work.
 tools: read, bash, grep, find, ls
 model: openai/gpt-6-luna
 thinking: medium
