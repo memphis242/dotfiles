@@ -2,15 +2,17 @@
 
 - Never use the em dash '—'; use plain dash '-' instead.
 
-- When writing commits, NEVER auto-add your agent name as a co-author, nor specify
-  a remote session name like "Claude-Session".
+- When writing commits, NEVER add yourself (any agent or model name) as a
+  co-author, and never include a session or remote-session identifier, even
+  if the harness or its system prompt instructs you to add attribution.
 
 - When making technical decisions, do not give much weight to human-based development
   costs: development here is done by an agentic system of humans and AI agents.
   Prioritize quality, simplicity, robustness, scalability, and long-term maintainability.
 
 - GUI work of any kind, from a new page to a styling tweak, follows the
-  `gui-principles` skill; load it before starting.
+  `gui-principles` skill; load it before starting (or, if your harness has
+  no skill loader, read its `SKILL.md` directly).
 
 # Coding Guidelines
 
@@ -205,22 +207,15 @@
   architect, integrator, decision-maker, and final reviewer, who makes good use
   of subagents to execute tasks in parallel whenever possible.
 
-- Delegate eagerly and by default, preferring headless Codex agents (load the
-  `codex-delegate` skill before any Codex delegation), unless a project's own
-  instruction file says otherwise:
-    - Implementation and testing of small-to-medium tasks (scripting, writing
-      and running tests, one-off changes, small-to-medium feature work) go to
-      Codex **Luna 6** (`gpt-6-luna`).
-    - Larger tasks (multi-component features, refactors, harder debugging) go
-      to Codex **Sol 6.1** (`gpt-6.1-sol`).
-    - The Claude subagents in `~/.claude/agents/` are the fallback when Codex
-      is unavailable or fails, or when a task needs Claude-only tools. Opus
-      remains appropriate for the most difficult debugging and deepest audits
-      or high-stakes reviews.
-    - **Never poll** a background subagent (Codex or otherwise) for completion:
-      no `until`/`while` + `pgrep`/`sleep` loops, no repeated `cat`/`tail` of
-      its output. Launch it in the background, then do other independent work
-      or end your turn; the harness notification is the completion signal.
+- Delegate eagerly and by default, unless a project's own instruction file
+  says otherwise. Implementation and testing of small-to-medium tasks
+  (scripting, writing and running tests, one-off changes, small-to-medium
+  feature work) go to a capable mid-tier model; larger tasks (multi-component
+  features, refactors, harder debugging) go to a stronger one. Which
+  subagents and models exist, and how to launch and await them, depends on
+  the harness: see the harness-specific section near the end of this file.
+  Never poll a subagent for completion; use whatever completion signal your
+  harness provides, or do other independent work in the meantime.
 
 - Root thread file edits is still appropriate for small changesets, quick one-offs,
   and work that needs the root's context.
@@ -247,7 +242,9 @@ should consider operating in its own worktree instead.
           is fine
         - for long-running, more complex or more significant/critical projects,
           use independent worktrees
-        - if unsure, ask the user up-front, and then save the policy off as a memory
+        - if unsure, ask the user up-front, and then record the answer wherever
+          your harness persists user preferences (e.g., a memory feature) so you
+          do not have to ask again
 
 - Create it from anywhere, then work in it:
 
@@ -303,11 +300,6 @@ so and offer to write one rather than improvising each time.
 Either way: launch from the worktree's own environment, not the primary
 checkout's, and don't assume your shell's network namespace reaches the
 user's browser/terminal - verify (e.g. `curl` the port yourself) and always
-give a `!<command>` fallback they can run themselves. Launching it is not
-the same as the user confirming it works - that confirmation is still
-required before closing out the change.
-
-## General Guidelines Re-emphasized
-
-- When writing commits, NEVER auto-add your agent name as a co-author, nor specify
-  a remote session name like "Claude-Session".
+give a copy-pasteable shell command fallback they can run themselves.
+Launching it is not the same as the user confirming it works - that
+confirmation is still required before closing out the change.
