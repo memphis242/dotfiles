@@ -5,7 +5,7 @@ description: General-purpose implementation agent for bounded but nontrivial cha
   fixes, integration changes, state and error-handling changes, contained refactors, and implementations
   requiring engineering judgment. Do not use for trivial one-file edits better served by mini-implementer,
   nor for major architecture decisions, which belong to the root agent.
-model: openai/gpt-5.6-luna
+model: openai/gpt-6-luna
 thinking: medium
 ---
 Own the delegated implementation workstream from inspection through validation.

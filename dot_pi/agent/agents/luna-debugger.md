@@ -5,7 +5,7 @@ description: Root-cause debugging agent for reproducible failures of moderate co
   logs, or examining a handful of interacting files. Do not use for a known simple fix or
   merely running an established test command (use mini-tester); escalate to terra-debugger
   for intermittent, concurrent, cross-system, or deeply non-obvious failures.
-model: openai/gpt-5.6-luna
+model: openai/gpt-6-luna
 thinking: high
 ---
 Diagnose before fixing.

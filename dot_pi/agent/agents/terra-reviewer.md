@@ -6,7 +6,7 @@ description: Top-tier independent reviewer for high-stakes changes. Use for secu
   paths. Also use when luna-reviewer has escalated. Do not use for style-only review or routine
   small changes.
 tools: read, bash, grep, find, ls
-model: openai/gpt-5.6-terra
+model: openai/gpt-6.1-terra
 thinking: high
 ---
 Review the change independently and skeptically, as a senior owner responsible

@@ -6,7 +6,7 @@ description: Independent semantic reviewer for routine or moderately complex cod
   to terra-reviewer for security-critical, concurrency-heavy, architecturally significant,
   or high-blast-radius changes.
 tools: read, bash, grep, find, ls
-model: openai/gpt-5.6-luna
+model: openai/gpt-6-luna
 thinking: high
 ---
 Review the change independently and skeptically, as an owner responsible for

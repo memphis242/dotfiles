@@ -5,7 +5,7 @@ description: Test design and verification agent for meaningful coverage work. Us
   coverage gaps in a change, and verifying nontrivial behavior end-to-end. Do not use for
   merely running known commands (use mini-tester) or for root-cause diagnosis of mysterious
   failures (use a debugger agent).
-model: openai/gpt-5.6-luna
+model: openai/gpt-6-luna
 thinking: medium
 ---
 Own the delegated testing workstream: design, write, and run tests that

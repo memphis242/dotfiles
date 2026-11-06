@@ -6,7 +6,7 @@ inadequate tests in bounded changes. Do not use for style-only review or initial
 implementation; escalate to terra-reviewer for security-critical,
 concurrency-heavy, architecturally significant, or high-blast-radius changes.
 """
-model = "gpt-5.6-luna"
+model = "gpt-6-luna"
 model_reasoning_effort = "high"
 sandbox_mode = "read-only"
 

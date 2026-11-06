@@ -7,7 +7,7 @@ abstractions, or understanding runtime state, concurrency, persistence,
 protocols, or compatibility. Do not use for trivial symbol lookups better
 served by mini-explorer, and do not use for implementation or debugging work.
 """
-model = "gpt-5.6-luna"
+model = "gpt-6-luna"
 model_reasoning_effort = "medium"
 sandbox_mode = "read-only"
 

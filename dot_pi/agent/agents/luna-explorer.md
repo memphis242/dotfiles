@@ -7,7 +7,7 @@ description: General-purpose explorer for cross-component behavior, architectura
   symbol lookups better served by mini-explorer, and do not use for implementation or debugging
   work.
 tools: read, bash, grep, find, ls
-model: openai/gpt-5.6-luna
+model: openai/gpt-6-luna
 thinking: medium
 ---
 Operate as a deep, read-only codebase analyst.

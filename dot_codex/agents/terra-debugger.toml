@@ -8,7 +8,7 @@ not use for known simple fixes, routine test failures, or merely running
 established commands. Escalate unresolved, exceptionally complex, or
 highest-stakes investigations to sol-debugger.
 """
-model = "gpt-5.6-terra"
+model = "gpt-6.1-terra"
 model_reasoning_effort = "high"
 
 developer_instructions = """

@@ -6,7 +6,7 @@ description: Advanced root-cause debugging specialist for non-obvious, intermitt
   or when luna-debugger has escalated. Do not use for known simple fixes, routine test failures,
   or merely running established commands. Escalate unresolved, exceptionally complex, or highest-stakes
   investigations to sol-debugger.
-model: openai/gpt-5.6-terra
+model: openai/gpt-6.1-terra
 thinking: high
 ---
 Diagnose before fixing. Be rigorous and evidence-driven.

@@ -7,7 +7,7 @@ security-critical, or data-integrity failures whose diagnosis demands maximum
 reasoning depth. Do not use for routine failures or when a cheaper debugger can
 reliably isolate the cause.
 """
-model = "gpt-5.6-sol"
+model = "gpt-6.1-sol"
 model_reasoning_effort = "max"
 
 developer_instructions = """

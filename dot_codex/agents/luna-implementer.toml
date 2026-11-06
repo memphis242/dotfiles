@@ -7,7 +7,7 @@ contained refactors, and implementations requiring engineering judgment. Do not
 use for trivial one-file edits better served by mini-implementer, nor for major
 architecture decisions, which belong to the root agent.
 """
-model = "gpt-5.6-luna"
+model = "gpt-6-luna"
 model_reasoning_effort = "medium"
 
 developer_instructions = """
