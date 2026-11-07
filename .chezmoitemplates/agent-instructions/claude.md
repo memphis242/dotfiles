@@ -10,6 +10,12 @@
       Codex **Luna 6** (`gpt-6-luna`).
     - Larger tasks (multi-component features, refactors, harder debugging) go
       to Codex **Sol 6.1** (`gpt-6.1-sol`).
+    - Necessarily creative work (e.g. realistic synthetic test data, sample
+      content, prose, naming, UX copy) goes to Claude subagents, Sonnet or
+      higher, not Codex: GPT models tend to be overly efficient there, even at
+      high effort, producing templated, repetitive output. Use `sonnet-writer`
+      by default and `opus-writer` for long, interlinked, or high-stakes
+      content (e.g. evaluation datasets with deliberate traps).
     - The Claude subagents in `~/.claude/agents/` are the fallback when Codex
       is unavailable or fails, or when a task needs Claude-only tools. Opus
       remains appropriate for the most difficult debugging and deepest audits

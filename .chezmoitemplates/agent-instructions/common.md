@@ -165,6 +165,12 @@
   32 hardware threads, up to 60 GB of usable RAM, and plenty of storage, so don't
   be conservative. Test feedback should come as quick as possible.
 
+- Before a larger batch run against an external service, API, remote
+  infrastructure, or a new inter-module interface, first run a minimal smoke
+  test (one item, one call) and then a small acceptance test. Scale up only
+  once those pass. A full batch on an unproven connection wastes time and
+  money and buries the first real error under many copies of it.
+
 - Be a judicious and conservative when choosing to run tests to save time and wasted effort.
     - When refining a particular GUI element or small snippet of logic, only run
       unit tests _after_ the refinement is accepted (e.g., user requesting refinements
