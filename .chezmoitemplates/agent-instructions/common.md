@@ -62,7 +62,24 @@
 
 - As a general, important policy, ensure that errors surface up to the user in a
   clear, actionable way, rather than silently discarding them somewhere along the
-  error-reporting chain.
+  error-reporting chain. Vague errors and warnings waste debugging time and are
+  real UX pain points, so this applies to every tool, script, and test harness,
+  not only shipped product code. Concretely:
+
+    - Say **what** failed, **why** (the specific cause, as far as it is known),
+      and **what to do next**. Name the operation, the resource (file, endpoint,
+      id, config key), and the observed value or state.
+    - Never collapse distinct causes into one generic message (e.g. "request
+      failed; check credentials" for every HTTP status). Preserve and pass on
+      the most specific detail an upstream source provides (status, error code,
+      message body, errno), bounded in size and with secrets and private data
+      removed.
+    - Do not guess a cause you have not established; if the cause is unknown,
+      say so and show the evidence you do have.
+    - Layer the detail: a concise summary up front, with fuller detail one step
+      away (a log file whose path is stated, a verbose flag, an expandable UI
+      pane or modal). Wrapping an error must keep the original as its cause,
+      not replace it.
 
 - Handle off-nominal, invalid cases intentionally and up-front, rather than waiting
   for a user to find out. Ensure the previous error surfacing policy is abided by.
