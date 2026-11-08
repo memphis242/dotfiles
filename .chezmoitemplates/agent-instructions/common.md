@@ -314,8 +314,11 @@ Worktrees isolate *files*, not the machine. Two sessions still contend for:
 
 - Remove a worktree once its branch is merged: `git worktree remove <path>`,
   then `git worktree prune`. `git worktree remove` silently deletes ignored
-  files too, so first move anything ignored but not reproducible (`.env`
-  secrets, local data) to where it is still needed. Leaving merged worktrees behind is what makes
+  files too. Keep secrets such as `.env` only in the primary checkout and
+  give a worktree a symlink to it, never a copy or an original, so removing
+  the worktree removes only the link. Before removing a worktree, run
+  `git status --ignored` in it and move out anything ignored that is not a
+  symlink or reproducible build output. Leaving merged worktrees behind is what makes
   `git worktree list` useless for seeing who is working on what.
 - Check `git worktree list` when you start; a stale entry for an
   already-merged branch is safe to remove, an entry for an unmerged branch is
