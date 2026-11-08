@@ -128,6 +128,13 @@
   development branch or pull/merge request to fail in CI, because later
   commits will certainly cover that prior to a merge into trunk.
 
+- Keep branches short-lived: a branch's work is done, reviewed, then merged
+  into trunk, and the branch and its worktree are deleted. Do not leave
+  finished branches lying around; a branch stays open only while genuinely
+  ongoing parallel work needs it. When a unit of work is done and reviewed,
+  merge it (or, without standing approval, ask for the go-ahead right away)
+  rather than stacking further work on an unmerged branch.
+
 - Commit often and commit regularly. Favor commits that are relatively small,
   atomic, self-container, and focused. With that said, if you find yourself in
   a situation with a lot of unstaged changes, don't worry about splitting it up,
@@ -306,7 +313,9 @@ Worktrees isolate *files*, not the machine. Two sessions still contend for:
 ## Cleanup
 
 - Remove a worktree once its branch is merged: `git worktree remove <path>`,
-  then `git worktree prune`. Leaving merged worktrees behind is what makes
+  then `git worktree prune`. `git worktree remove` silently deletes ignored
+  files too, so first move anything ignored but not reproducible (`.env`
+  secrets, local data) to where it is still needed. Leaving merged worktrees behind is what makes
   `git worktree list` useless for seeing who is working on what.
 - Check `git worktree list` when you start; a stale entry for an
   already-merged branch is safe to remove, an entry for an unmerged branch is
