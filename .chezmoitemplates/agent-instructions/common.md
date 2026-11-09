@@ -283,6 +283,17 @@ should consider operating in its own worktree instead.
   cd /workspace/worktree/<project>/<branch>
   ```
 
+- Name branches `<kind>/<short-name>` in lowercase kebab case, where `<kind>`
+  is one of:
+    - `feat/` - a feature or other new capability
+    - `fix/` - a bug fix
+    - `test/` - work only on tests, fixtures, fuzzing, or the test harness
+    - `doc/` - documentation only
+
+  For example, `feat/excel-import` or `fix/sst-reserve-abort`. The slash
+  carries into the worktree path (`/workspace/worktree/<project>/feat/excel-import`).
+  A project's own instruction file may add kinds or override this.
+
 ## Foreign edits are not yours
 
 - If `git status` shows modified or untracked files you did not create, they

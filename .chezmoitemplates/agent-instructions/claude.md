@@ -2,28 +2,27 @@
 
 ## Delegation
 
-- Delegate eagerly and by default, preferring headless Codex agents (load the
-  `codex-delegate` skill before any Codex delegation), unless a project's own
-  instruction file says otherwise:
-    - Implementation and testing of small-to-medium tasks (scripting, writing
-      and running tests, one-off changes, small-to-medium feature work) go to
-      Codex **Luna 6** (`gpt-6-luna`).
-    - Larger tasks (multi-component features, refactors, harder debugging) go
-      to Codex **Sol 6.1** (`gpt-6.1-sol`).
-    - Necessarily creative work (e.g. realistic synthetic test data, sample
-      content, prose, naming, UX copy) goes to Claude subagents, Sonnet or
-      higher, not Codex: GPT models tend to be overly efficient there, even at
-      high effort, producing templated, repetitive output. Use `sonnet-writer`
-      by default and `opus-writer` for long, interlinked, or high-stakes
-      content (e.g. evaluation datasets with deliberate traps).
-    - The Claude subagents in `~/.claude/agents/` are the fallback when Codex
-      is unavailable or fails, or when a task needs Claude-only tools. Opus
-      remains appropriate for the most difficult debugging and deepest audits
-      or high-stakes reviews.
-    - **Never poll** a background subagent (Codex or otherwise) for completion:
-      no `until`/`while` + `pgrep`/`sleep` loops, no repeated `cat`/`tail` of
-      its output. Launch it in the background, then do other independent work
-      or end your turn; the harness notification is the completion signal.
+- Delegate eagerly and by default, using Claude Code's built-in subagents and
+  the agents defined in `~/.claude/agents/`, unless a project's own instruction
+  file says otherwise. Match the agent to the task:
+    - Exploration: `haiku-explorer` for narrow lookups, `sonnet-explorer` for
+      cross-component questions.
+    - Implementation: `haiku-implementer` for small, mechanical changes;
+      `sonnet-implementer` for bounded but nontrivial multi-file work.
+    - Testing: `haiku-tester` to run known commands; `sonnet-tester` to design
+      and write tests.
+    - Debugging: `sonnet-debugger` by default; `opus-debugger` for
+      intermittent, concurrent, or cross-system failures.
+    - Review: `sonnet-reviewer` for routine changes; `opus-reviewer` for
+      high-stakes or high-blast-radius changes.
+    - Creative work (e.g. realistic synthetic test data, sample content,
+      prose, naming, UX copy): `sonnet-writer` by default, `opus-writer` for
+      long, interlinked, or high-stakes content (e.g. evaluation datasets with
+      deliberate traps).
+    - **Never poll** a background subagent for completion: no `until`/`while`
+      + `pgrep`/`sleep` loops, no repeated `cat`/`tail` of its output. Launch
+      it in the background, then do other independent work or end your turn;
+      the harness notification is the completion signal.
 
 ## Interaction
 
