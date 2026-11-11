@@ -92,6 +92,14 @@ UI design work requires a larger, design-capable model. Use Opus or Fable at hig
 
 ## Interaction and layout
 
+- Whenever the UI supports a third-party service or API, provide an explicit
+  Test connection action beside its setup controls so users can verify it
+  before relying on it in the app. Use a minimal request through the actual
+  integration, disclose any quota or cost, and avoid sending user content.
+  Show progress, a clear success result, or an actionable error with details
+  one step away. Invalidate the result when relevant settings change; never
+  imply that saving credentials alone verifies the connection.
+
 - Make interactive controls, section headings, separators, and status displays
   visually distinct in their idle state. Buttons need a clear control boundary
   and action styling; headings and rules must not mimic buttons or tabs when
