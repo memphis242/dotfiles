@@ -92,6 +92,13 @@ UI design work requires a larger, design-capable model. Use Sol or Astra at high
 
 ## Interaction and layout
 
+- Make interactive controls, section headings, separators, and status displays
+  visually distinct in their idle state. Buttons need a clear control boundary
+  and action styling; headings and rules must not mimic buttons or tabs when
+  they do not navigate or act. Distinguish active, disabled, and read-only
+  elements without relying on hover or color alone. Check that adjacent elements
+  cannot reasonably be mistaken for one another before handing over the UI.
+
 - Editable fields must look editable before hover or focus. Give them a
   persistent label, a visibly bounded textbox with a background or border that
   stands apart from its surroundings, internal padding, and an I-beam cursor.
