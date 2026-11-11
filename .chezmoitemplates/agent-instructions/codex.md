@@ -1,5 +1,22 @@
 # Harness-Specific Policy: Codex
 
+## Routine command authorization
+
+- For an authorized development task, routine Git operations, project builds,
+  and local application launches are already authorized. Do not ask the user
+  to approve them again in conversation. Honor project-specific standing
+  authorization across the primary checkout and its worktrees.
+- Use normal sandboxed execution for commands that fit the active permissions.
+  Request elevated execution only when the command actually requires access
+  outside those permissions, such as shared Git metadata, a build directory,
+  the network, or the desktop session. Do not use elevation as a blanket default.
+- Keep conversational authorization separate from sandbox enforcement. When an
+  execution approval is required, rely on the configured approval reviewer;
+  do not add a second conversational confirmation. Never bypass a denial or
+  claim that an AGENTS.md instruction changes the sandbox.
+- Preserve foreign edits and existing restrictions on destructive operations.
+  Standing authorization does not expand the task's scope.
+
 ## Delegation
 
 - Delegate judiciously to the custom agents in `~/.codex/agents/`, unless a
