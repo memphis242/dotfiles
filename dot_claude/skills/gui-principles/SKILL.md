@@ -107,6 +107,13 @@ UI design work requires a larger, design-capable model. Use Opus or Fable at hig
   surrounding form. Clicking inside the field or its scrollbars keeps editing
   active. Do not rely on another control taking focus to dismiss an editor.
 
+- Read-only modals with no active edits close when the user clicks outside
+  their bounds. Modals containing writable forms require an explicit X
+  close button or a named form action such as Save or Cancel; outside clicks
+  and Escape must not dismiss them, even when no field has focus or the form
+  is unchanged. If a read-only modal enters editing, disable click-away
+  dismissal for the editing state. Preserve the form's draft and save policy.
+
 - Always use modal dialogs for adding or editing content, not expanding inline
   forms that shift page content or auto-scroll the page.
 
