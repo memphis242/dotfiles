@@ -81,6 +81,36 @@
       pane or modal). Wrapping an error must keep the original as its cause,
       not replace it.
 
+- Treat diagnostic logging as application infrastructure, not an afterthought.
+  Applications and long-running services need persistent, bounded circular logs
+  with daily and size-based rotation, finite retention, and configurable severity
+  and verbosity. Default to Warning severity with high diagnostic detail unless
+  a project has a documented reason otherwise. Expose logging controls in an
+  appropriate settings or configuration interface and make the log location easy
+  to find. Surface logging failures with their path and filesystem cause.
+
+    - Preserve enough ordered context to investigate an operation after it fails:
+      operation/correlation ID, resource, stage or turn, observed inputs and
+      outputs, upstream causes, and recovery attempts. For model/prompt/tool
+      protocol failures, retain the bounded back-to-back prompt, response, tool
+      request, and tool-result sequence, not merely a generic parser error.
+      Identify truncation explicitly and keep concurrent operations separate.
+    - Keep credentials, authorization headers, tokens, and unrelated private
+      data out of logs. Restrict file access, redact secrets before writing,
+      and clearly disclose when diagnostic verbosity captures user content.
+      Lower verbosity must actually suppress that content. Logs must not enter
+      sync, exports, or backups implicitly.
+    - Detailed error views should show the actual rejected operation or tool
+      call, where it occurred, why it was invalid, applicable limits, attempted
+      recovery, and the diagnostic log path or correlation ID. Preserve the
+      underlying evidence with appropriate bounds and redaction.
+    - Within an application's model/tool protocol, report malformed or unsupported
+      tool requests back to the model for bounded correction when safe. Never
+      execute an unknown tool, silently coerce its arguments, exceed the request
+      budget, or confuse correction attempts with successful external calls.
+      This does not authorize retrying a denied development command or bypassing
+      permission and approval decisions.
+
 - Handle off-nominal, invalid cases intentionally and up-front, rather than waiting
   for a user to find out. Ensure the previous error surfacing policy is abided by.
 
