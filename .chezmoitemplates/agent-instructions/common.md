@@ -81,6 +81,28 @@
       pane or modal). Wrapping an error must keep the original as its cause,
       not replace it.
 
+- Prefer cached responses for eligible LLM operations instead of repeating an
+  equivalent inference. Reuse a result only when the complete input and effective
+  model configuration match, including system instructions, conversation/tool
+  context, schemas, model/provider/version, sampling settings, and relevant
+  account scope. Never put credentials in cache keys, metadata, or logs.
+
+    - Wherever a model operation has a user interface, provide a clear way to
+      force a fresh response and indicate when a cached response was used.
+      Snapshot that choice for the whole operation, including follow-up turns.
+      Connection tests and other actions intended to verify a live service must
+      bypass caches.
+    - Keep persistent caches bounded, private, and separate from sync/exports.
+      Define expiry and invalidation, isolate corrupt entries, and surface cache
+      failures without discarding an otherwise usable model result. Cache only
+      validated successful responses; do not retain errors, refusals, malformed
+      tool calls, or truncated output as reusable successes.
+    - Reusing a model response never authorizes replaying tool side effects.
+      Preserve source-freshness checks and read/write tool restrictions. Apply
+      cancellation and request-lifetime guards to cache hits as well as live
+      responses. Verify that the interface's fresh-response path actually
+      bypasses the cache.
+
 - Treat diagnostic logging as application infrastructure, not an afterthought.
   Applications and long-running services need persistent, bounded circular logs
   with daily and size-based rotation, finite retention, and configurable severity
